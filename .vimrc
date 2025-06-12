@@ -14,25 +14,33 @@ set textwidth=0					" prevent Vim from automatically inserting line breaks
 set wrapmargin=0
 set formatoptions-=t			" Don't change wrapping on existing lines
 set formatoptions+=l			" Black magic
+set hlsearch					" Highlight search matches
 
 " # Install Plugins
 call plug#begin('~/.vim/plugged')
 	" ## Themes
-	Plug 'https://github.com/chriskempson/vim-tomorrow-theme'
+	Plug 'chriskempson/base16-vim'
 	Plug 'vim-airline/vim-airline-themes'
+	Plug 'altercation/vim-colors-solarized'
 
 	" ## Markdown
 	Plug 'nelstrom/vim-markdown-folding'
 	Plug 'tpope/vim-markdown'
 
 	" ## Other Tools
+	Plug 'https://github.com/sirtaj/vim-openscad'	" OpenSCAD syntax hilighting
 	Plug 'vim-airline/vim-airline'					" Airline bar
 	Plug 'scrooloose/syntastic'						" syntax info
 	Plug 'Raimondi/delimitmate'						" smart completion of delimiters
 
-	" ## Required by ProseMode (section below)
-	Plug 'junegunn/goyo.vim' 						" goyo (distraction-free writing)
-	Plug 'preservim/vim-pencil' 					" VimPencil (prose-writing tools
+	" ## Prose-Writing Tools
+	Plug 'preservim/vim-pencil'
+	Plug 'junegunn/limelight.vim'
+	Plug 'junegunn/goyo.vim'
+	Plug 'reedes/vim-lexical' " Better spellcheck mappings
+  	Plug 'reedes/vim-litecorrect' " Better autocorrections
+  	Plug 'reedes/vim-textobj-sentence' " Treat sentences as text objects
+  	Plug 'reedes/vim-wordy' " Weasel words and passive voice
 call plug#end()
 
 " # Plugin Settings
@@ -53,41 +61,41 @@ let g:airline_right_sep=''
 " # Color Scheme
 syntax on
 syntax enable			" I have no idea what this actually does
-set background=dark
-set t_Co=256			" 256 colors, terrible for most themes, but best for Tomorrow-Night
-colorscheme Tomorrow-Night
 
-"# ===================================
-"# Prose Mode (https://old.reddit.com/r/vim/comments/q03mqa/my_setup_for_prose/)
-"# requires: Goyo plugin, VimPencil plugin
-"#   (and technically SDCV, a dictionary CLI, and Moby Thesaurus CLI, but I didn't install those)
-"# ===================================
+" set background=dark
+" colorscheme solarized
+" Base16 theme
+" set background=light
+" set t_Co=256			" 256 colors, terrible for most themes, but best for Tomorrow-Night
+" colorscheme base16-default-light
 
-let w:ProseModeOn = 0
+" # Experimental Prose mode command:
+   let w:ProseModeOn = 0
 
-function EnableProseMode()
-    setlocal spell spelllang=en_us
-    Goyo 66
-    SoftPencil
-    echo "Prose Mode On"
-endfu
+   function EnableProseMode()
+       setlocal spell spelllang=en_us
+       Goyo 66
+       SoftPencil
+       echo "Prose Mode On"
+   endfu
 
-function DisableProseMode()
-    Goyo!
-    NoPencil
-    setlocal nospell
-    echo "Prose Mode Off"
-endfu
+   function DisableProseMode()
+       Goyo!
+       NoPencil
+       setlocal nospell
+       echo "Prose Mode Off"
+   endfu
 
-function ToggleProseMode()
-    if w:ProseModeOn == 0
-        call EnableProseMode()
-        let w:ProseModeOn = 1
-    else
-        call DisableProseMode()
-    endif
-endfu
+   function ToggleProseMode()
+       if w:ProseModeOn == 0
+           call EnableProseMode()
+           let w:ProseModeOn = 1
+       else
+           call DisableProseMode()
+       endif
+   endfu
 
-command Prose call EnableProseMode()
-command UnProse call DisableProseMode()
-command ToggleProse call ToggleProseMode()
+   command Prose call EnableProseMode()
+   command UnProse call DisableProseMode()
+   command ToggleProse call ToggleProseMode()
+
